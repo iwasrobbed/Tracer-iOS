@@ -20,10 +20,14 @@ final class ItemLoggerListPresenter: Presenting {
     
     func listenForChanges() {
         TraceUISignals.Logger.itemLogged.listen { loggedItem in
-            self.view.display(loggedItem: loggedItem)
+            DispatchQueue.main.async {
+                self.view.display(loggedItem: loggedItem)
+            }
         }
         TraceUISignals.UI.clearLog.listen { _ in
-            self.view.clearAll()
+            DispatchQueue.main.async {
+                self.view.clearAll()
+            }
         }
     }
     
