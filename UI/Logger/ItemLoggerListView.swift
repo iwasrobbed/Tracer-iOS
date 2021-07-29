@@ -23,32 +23,14 @@ final class ItemLoggerListView: UIView, Viewing {
     func display(loggedItem: LoggedItem) {
         // Newest events should be inserted at the top
         loggedItems.insert(loggedItem, at: 0)
-        let indexPath = IndexPath(row: 0, section: 0)
-        if #available(iOS 11.0, *) {
-            tableView.performBatchUpdates({ [weak self] in
-                self?.tableView.insertRows(at: [indexPath], with: .automatic)
-            }, completion: nil)
-        } else {
-            tableView.beginUpdates()
-            tableView.insertRows(at: [indexPath], with: .automatic)
-            tableView.endUpdates()
-        }
+        tableView.reloadData()
     }
     
     // MARK: - Clearing
     
     func clearAll() {
-        let rows = loggedItems.enumerated().map({ IndexPath(row: $0.offset, section: 0) })
         loggedItems.removeAll()
-        if #available(iOS 11.0, *) {
-            tableView.performBatchUpdates({ [weak self] in
-                self?.tableView.deleteRows(at: rows, with: .automatic)
-            }, completion: nil)
-        } else {
-            tableView.beginUpdates()
-            tableView.deleteRows(at: rows, with: .automatic)
-            tableView.endUpdates()
-        }
+        tableView.reloadData()
     }
     
     // MARK: - Private Properties
